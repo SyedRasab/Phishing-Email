@@ -423,7 +423,6 @@ export function Landing() {
           </Link>
           <nav className="hidden items-center gap-8 text-sm font-semibold text-slate-600 md:flex">
             <a href="#how-it-works" className="hover:text-indigo-600 transition-colors">How It Works</a>
-            <a href="#features" className="hover:text-indigo-600 transition-colors">Features</a>
             <a href="#scoring" className="hover:text-indigo-600 transition-colors">Scoring Weights</a>
             <a href="#pricing" className="hover:text-indigo-600 transition-colors">Pricing</a>
           </nav>
