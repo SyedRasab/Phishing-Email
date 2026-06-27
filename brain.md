@@ -1,7 +1,7 @@
 # brain.md — Project Cognitive Map
 
-**LAST UPDATED**: 2026-06-27 22:15:00 (Deployment Configuration Update)  
-**CHANGES TRACKED**: Project restructured to industry-standard layout. Added deployment configs (render.yaml, vercel.json) for cloud hosting. Updated paths for backend components under backend/app/, moved models to ml-models/, renamed frontend directory, moved SQLite DB to database/, and centralized documentation under docs/.
+**LAST UPDATED**: 2026-06-27 22:50:00 (Railway Deployment Update)  
+**CHANGES TRACKED**: Switched backend deployment configuration from Render to Railway. Added railway.json, nixpacks.toml, Procfile, runtime.txt. Updated config.py and main.py to support Railway environment variables. Updated path configurations under backend/app/core/config.py.
 
 ---
 
@@ -10,6 +10,8 @@
 This project is an **AI-powered Phishing Email Detection System** designed as a multi-layered cybersecurity evaluation dashboard. Its core purpose is to protect organizations by parsing raw email inputs (or connected Gmail accounts), extracting features via heuristic rules, performing machine learning-based text and URL analysis, and presenting a unified interface for administrators to evaluate employee security posture and trigger training simulations.
 
 The end-user goal is to empower enterprise administrators to monitor incoming threats, evaluate the organizational "Security Score" (alertness), and actively train employees using custom-built phishing simulation templates. Employees can view their inboxes in a secure sandboxed sandbox view, run full diagnostics on suspicious emails, and report simulated attacks to earn safety credit.
+
+**Deployment Target**: Backend: Railway.app, Frontend: Vercel.
 
 Currently, the project is in a **fully functional Beta/Academic stage**:
 - The backend features a dual-model machine learning stack (DistilBERT for NLP text classification + Scikit-learn for URL threat classification) combined with custom DNS resolvers for SPF, DKIM, and DMARC verification.
@@ -35,8 +37,11 @@ phishguard/                          ← Rename root folder (clean name)
 │   │   ├── routers/                 ← Split REST endpoints
 │   │   └── services/                ← Business logic layers (parser, features, trust_analyzer, scorer)
 │   ├── tests/                       ← All pytest modules
-│   └── scripts/                     ← Developer utility scripts
-│       └── scratch/                 ← Scratch scripts and models playground
+│   ├── scripts/                     ← Developer utility scripts
+│   │   └── scratch/                 ← Scratch scripts and models playground
+│   ├── Procfile                     ← Process file for Railway deployment
+│   ├── nixpacks.toml                ← Nixpacks custom build configuration
+│   └── runtime.txt                  ← Python runtime specification
 ├── ml-models/                       ← Saved model configurations and weights
 │   ├── distilbert/                  ← NLP model files
 │   └── url-guard/                   ← URL classifier pickles
@@ -52,7 +57,8 @@ phishguard/                          ← Rename root folder (clean name)
 │   └── setup.md                     ← Local setup manual
 ├── database/                        ← Database storage directory
 │   └── phishing.db                  ← SQLite database file
-└── render.yaml                      ← Render deployment configuration (backend)
+├── railway.json                     ← Railway deployment configuration schema/rules
+└── .gitignore                       ← Git exclude patterns
 ```
 
 ---
@@ -202,6 +208,9 @@ Since the application does not make calls to generative LLM APIs (e.g. OpenAI/Cl
 ### Backend Environment Variables
 *   `PORT`: Port number on which the FastAPI application will run (default: `8000`).
 *   `ALLOWED_ORIGINS`: Comma-separated list of allowed origins for CORS (default: `http://localhost:5173`).
+*   `RAILWAY_ENVIRONMENT`: Environment name set automatically by Railway (e.g. `production`).
+*   `ML_MODELS_DIR`: Directory path to the loaded ML model weights, configured to point to persistent volumes on Railway.
+*   `DATABASE_PATH`: Directory path to the SQLite `phishing.db` file, configured to point to persistent volumes on Railway.
 
 ### Config & Deployment Files
 *   `package.json`: Manages scripts (`dev`, `build`, `preview`, `lint`, `format`) and dependency mappings.
@@ -209,7 +218,8 @@ Since the application does not make calls to generative LLM APIs (e.g. OpenAI/Cl
 *   `tsconfig.json`: Defines path alias maps (`@/*` pointing to `src/*`).
 *   `requirements.txt`: Manages Python packages.
 *   `bunfig.toml` / `bun.lock`: Bun bundler lock and environment variables.
-*   `render.yaml`: Configuration for deploying the FastAPI backend on Render.
+*   `railway.json`: Configuration for deploying the FastAPI backend on Railway.app.
+*   `backend/Procfile` & `backend/nixpacks.toml`: Custom Nixpacks process declarations for building Python environment on Railway.
 *   `frontend/vercel.json`: Configuration for deploying the React frontend on Vercel (routing and build config).
 
 ---

@@ -13,19 +13,17 @@ venv/
 env/
 
 # ML Models (large binary files)
-ml-models/**/*.pkl
 ml-models/**/*.safetensors
 ml-models/**/*.bin
 ml-models/**/*.pt
-ml-models/**/*.onnx
-ml-models/**/*.h5
+ml-models/**/*.pkl
 
 # Database
+database/*.db
+database/*.db-shm  
+database/*.db-wal
+backend/*.db
 *.db
-*.db-shm
-*.db-wal
-*.sqlite
-*.sqlite3
 
 # Frontend
 frontend/node_modules/
@@ -79,3 +77,6 @@ logs/
 
 # Gemini / AI
 .gemini/
+
+# Railway
+.railway/
