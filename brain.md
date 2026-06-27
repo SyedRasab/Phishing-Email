@@ -1,7 +1,7 @@
 # brain.md — Project Cognitive Map
 
-**LAST UPDATED**: 2026-06-27 22:15:00 (Deployment Configuration Update)  
-**CHANGES TRACKED**: Project restructured to industry-standard layout. Added deployment configs (render.yaml, vercel.json) for cloud hosting. Updated paths for backend components under backend/app/, moved models to ml-models/, renamed frontend directory, moved SQLite DB to database/, and centralized documentation under docs/.
+**LAST UPDATED**: 2026-06-28 02:24:00 (Local Dev Cleanup Update)  
+**CHANGES TRACKED**: Reverted all deployment files and configs. Documented the permanent admin role configuration for rasab1781@gmail.com. Updated directory tree and configuration file lists to reflect local development environment.
 
 ---
 
@@ -44,15 +44,13 @@ phishguard/                          ← Rename root folder (clean name)
 │   ├── src/                         ← Client source code
 │   ├── public/                      ← Static assets
 │   ├── package.json                 ← Node dependency mappings
-│   ├── vite.config.ts               ← Lovable + TanStack compiler
-│   └── vercel.json                  ← Vercel deployment configuration
+│   └── vite.config.ts               ← Lovable + TanStack compiler
 ├── docs/                            ← Centralized project documentation
 │   ├── architecture.md              ← High-level data flows
 │   ├── api-reference.md             ← REST contract specifications
 │   └── setup.md                     ← Local setup manual
-├── database/                        ← Database storage directory
-│   └── phishing.db                  ← SQLite database file
-└── render.yaml                      ← Render deployment configuration (backend)
+└── database/                        ← Database storage directory
+    └── phishing.db                  ← SQLite database file
 ```
 
 ---
@@ -203,14 +201,12 @@ Since the application does not make calls to generative LLM APIs (e.g. OpenAI/Cl
 *   `PORT`: Port number on which the FastAPI application will run (default: `8000`).
 *   `ALLOWED_ORIGINS`: Comma-separated list of allowed origins for CORS (default: `http://localhost:5173`).
 
-### Config & Deployment Files
+### Config & Documentation Files
 *   `package.json`: Manages scripts (`dev`, `build`, `preview`, `lint`, `format`) and dependency mappings.
 *   `vite.config.ts`: Lovable wrapper enabling TanStack Start routing and SSR entry maps.
 *   `tsconfig.json`: Defines path alias maps (`@/*` pointing to `src/*`).
 *   `requirements.txt`: Manages Python packages.
 *   `bunfig.toml` / `bun.lock`: Bun bundler lock and environment variables.
-*   `render.yaml`: Configuration for deploying the FastAPI backend on Render.
-*   `frontend/vercel.json`: Configuration for deploying the React frontend on Vercel (routing and build config).
 
 ---
 
@@ -261,6 +257,9 @@ Mapping Google OAuth credentials (client_secret, refresh_token) in the admin con
 
 ### 2. SQLite Concurrency Limits
 Under concurrent scans (e.g. multiple employees analyzing emails simultaneously), the SQLite database (`phishing.db`) is prone to locking errors, as write sessions do not queue requests.
+
+### 3. Hardcoded Admin Email
+The email `rasab1781@gmail.com` is globally hardcoded to always be assigned the `"admin"` role in both the backend `create_user` database function and the frontend `useGoogleAuth` sign-in hook to prevent it from accidentally reverting to `"employee"`.
 
 ---
 
