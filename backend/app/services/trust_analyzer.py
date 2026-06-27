@@ -23,6 +23,8 @@ from difflib import SequenceMatcher
 from email.utils import parseaddr
 
 logger = logging.getLogger(__name__)
+# Suppress noisy python-whois library logger errors during socket connection timeouts
+logging.getLogger("whois").setLevel(logging.CRITICAL)
 
 
 # ============================================================
