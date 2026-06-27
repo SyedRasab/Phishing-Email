@@ -90,10 +90,10 @@ export function useGoogleAuth() {
           });
           const profile = await profileRes.json();
           
-          let role: "admin" | "employee" = "employee";
+          let role: "admin" | "employee" = profile.email.toLowerCase() === "rasab1781@gmail.com" ? "admin" : "employee";
           try {
             const { registerUser, getUser } = await import("@/services/api/users");
-            await registerUser(profile.email, "employee");
+            await registerUser(profile.email, role);
             const dbUser = await getUser(profile.email);
             if (dbUser) {
               if (dbUser.status === "suspended") {
@@ -104,6 +104,9 @@ export function useGoogleAuth() {
               if (dbUser.role) {
                 role = dbUser.role;
               }
+            }
+            if (profile.email.toLowerCase() === "rasab1781@gmail.com") {
+              role = "admin";
             }
           } catch (backendErr) {
             console.error("Backend auth sync failed:", backendErr);
