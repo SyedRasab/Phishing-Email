@@ -15,7 +15,7 @@ app = FastAPI(title="PhishGuard API")
 # Configure CORS middleware
 allowed_origins_str = os.getenv(
     "ALLOWED_ORIGINS",
-    "http://localhost:5173"
+    "http://localhost:5173,http://127.0.0.1:5173,http://localhost:5174,http://127.0.0.1:5174"
 )
 origins = [o.strip() for o in allowed_origins_str.split(",")]
 
