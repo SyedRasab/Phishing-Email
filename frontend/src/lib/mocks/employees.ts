@@ -1,0 +1,97 @@
+import type { Employee } from "@/types/api";
+
+const ORG = "org_phishguard";
+
+export const MOCK_EMPLOYEES: Employee[] = [
+  {
+    id: "demo_admin",
+    email: "admin@phishguard.dev",
+    name: "Alex Morgan",
+    role: "admin",
+    org_id: ORG,
+    status: "active",
+    last_active: new Date().toISOString(),
+    scans_count: 482,
+    threats_caught: 71,
+    credentials: {
+      client_id: "1023948.apps.googleusercontent.com",
+      client_secret_masked: "GOCSPX-••••••••••••••••",
+      refresh_token_masked: "1//04••••••••••••••",
+      configured_at: new Date(Date.now() - 86400000 * 14).toISOString(),
+    },
+  },
+  {
+    id: "emp_002",
+    email: "jordan.lee@phishguard.dev",
+    name: "Jordan Lee",
+    role: "employee",
+    org_id: ORG,
+    status: "active",
+    last_active: new Date(Date.now() - 3600 * 1000).toISOString(),
+    scans_count: 1248,
+    threats_caught: 142,
+    credentials: {
+      client_id: "9928374.apps.googleusercontent.com",
+      client_secret_masked: "GOCSPX-••••••••••••••••",
+      refresh_token_masked: "1//04••••••••••••••",
+      configured_at: new Date(Date.now() - 86400000 * 7).toISOString(),
+    },
+  },
+  {
+    id: "emp_003",
+    email: "priya.shah@phishguard.dev",
+    name: "Priya Shah",
+    role: "employee",
+    org_id: ORG,
+    status: "active",
+    last_active: new Date(Date.now() - 600 * 1000).toISOString(),
+    scans_count: 894,
+    threats_caught: 88,
+  },
+  {
+    id: "emp_004",
+    email: "marcus.chen@phishguard.dev",
+    name: "Marcus Chen",
+    role: "employee",
+    org_id: ORG,
+    status: "active",
+    last_active: new Date(Date.now() - 86400 * 1000).toISOString(),
+    scans_count: 612,
+    threats_caught: 45,
+  },
+  {
+    id: "emp_005",
+    email: "sofia.ramirez@phishguard.dev",
+    name: "Sofia Ramirez",
+    role: "employee",
+    org_id: ORG,
+    status: "invited",
+    scans_count: 0,
+    threats_caught: 0,
+  },
+  {
+    id: "emp_006",
+    email: "ben.okafor@phishguard.dev",
+    name: "Ben Okafor",
+    role: "employee",
+    org_id: ORG,
+    status: "active",
+    last_active: new Date(Date.now() - 4 * 86400 * 1000).toISOString(),
+    scans_count: 287,
+    threats_caught: 19,
+  },
+  {
+    id: "emp_007",
+    email: "noor.haddad@phishguard.dev",
+    name: "Noor Haddad",
+    role: "employee",
+    org_id: ORG,
+    status: "suspended",
+    last_active: new Date(Date.now() - 30 * 86400 * 1000).toISOString(),
+    scans_count: 41,
+    threats_caught: 3,
+  },
+];
+
+// Demo employee identity used when toggling to employee view in demo mode.
+export const DEMO_EMPLOYEE = MOCK_EMPLOYEES.find((e) => e.id === "emp_002")!;
