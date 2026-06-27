@@ -1,7 +1,6 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 import logging
-import os
 
 from app.routers import scan, rules, users, stats, simulation
 from app.core.websocket import manager
@@ -13,18 +12,11 @@ logger = logging.getLogger(__name__)
 app = FastAPI(title="PhishGuard API")
 
 # Configure CORS middleware
-allowed_origins_str = os.getenv(
-    "ALLOWED_ORIGINS",
-    "http://localhost:5173,http://127.0.0.1:5173,http://localhost:5174,http://127.0.0.1:5174"
-)
-origins = [o.strip() for o in allowed_origins_str.split(",")]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
+    allow_origins=["*"],
     allow_methods=["*"],
-    allow_headers=["*"],
+    allow_headers=["*"]
 )
 
 # Register sub-routers
@@ -41,14 +33,6 @@ async def startup():
 @app.get("/")
 def home():
     return {"message": "Phishing Detector API is running"}
-
-@app.get("/health")
-def health_check():
-    return {
-        "status": "ok", 
-        "service": "PhishGuard API",
-        "environment": os.getenv("RAILWAY_ENVIRONMENT", "local")
-    }
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
